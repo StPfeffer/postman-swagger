@@ -1,0 +1,1737 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Loja Integrada",
+    "description": "Para que você possa acessar a API da Loja Integrada você deve entrar em contato com o nosso suporte técnico e pedir a chave da API da sua conta e a chave da aplicação que você usará. Você deverá enviar estas informações toda vez que acessar uma URL da API.\n\nO envio destes dados podem ser feitos de duas formas, através do método GET ou POST enviando os diretamente no corpo do request ou usando o cabeçalho HTTP Authentication.\n\n⠀\n\n## Limites (Throttling)\n\nA API possui os seguintes limites de requisições:\n\n| **Método** | **Quantidade de requisições** | **Erro** |\n| --- | --- | --- |\n| chave_aplicacao | 3000 / min | 533 |\n| chave_api | 100 / min | 633 |\n| ip | 1200 / min | 133 |\n\nAo exceder o limite, a API retornará status 429 e o erro específico.",
+    "version": "1.0.0"
+  },
+  "servers": [],
+  "tags": [
+    {
+      "name": "Banco",
+      "description": "Consulta bancos disponíveis na loja"
+    },
+    {
+      "name": "Categoria",
+      "description": ""
+    },
+    {
+      "name": "Cliente",
+      "description": "Consulta e cadastro de clientes da loja"
+    },
+    {
+      "name": "Cupom",
+      "description": "Gerencie seus cupons através de consulta, cadastro e alteração de cupons dos desconto"
+    },
+    {
+      "name": "Envio",
+      "description": "Consulta formas de envio disponíveis na loja"
+    },
+    {
+      "name": "Estoque",
+      "description": "O estoque do produto é definido por quatro campos no banco de dados: **gerenciado**, **quantidade**, **situacao_em_estoque**, **situacao_sem_estoque**"
+    },
+    {
+      "name": "Grade",
+      "description": "Consulta e cadastro de grades da loja"
+    },
+    {
+      "name": "Grupo",
+      "description": "Consulta grupos de clientes da loja"
+    },
+    {
+      "name": "Imagens do Produto",
+      "description": "Consulta e cadastro de imagens de um produto"
+    },
+    {
+      "name": "Integração de Pedidos",
+      "description": ""
+    },
+    {
+      "name": "Marca",
+      "description": "Consulta e cadastro de marcas na loja"
+    },
+    {
+      "name": "Pagamento",
+      "description": "Consulta formas de pagamento disponíveis na loja"
+    },
+    {
+      "name": "Pedido",
+      "description": ""
+    },
+    {
+      "name": "Preço",
+      "description": "Consulte a alteração de preço dos produtos"
+    },
+    {
+      "name": "Produto",
+      "description": "Consulta, alteração e criação de produto na loja"
+    },
+    {
+      "name": "SEO",
+      "description": "Adicione ou altere os parâmetro de SEO dos produtos e categorias"
+    },
+    {
+      "name": "Situações do Pedido",
+      "description": "Consulta formas de envio disponíveis na loja"
+    }
+  ],
+  "paths": {
+    "/banco": {
+      "get": {
+        "tags": [
+          "Banco"
+        ],
+        "summary": "Lista todos os bancos disponíveis no sistema",
+        "description": "Lista todos os bancos disponíveis no sistema.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/banco/{{banco_id}}": {
+      "get": {
+        "tags": [
+          "Banco"
+        ],
+        "summary": "Lista os dados de um banco específico",
+        "description": "Lista os dados de um banco específico.\n\n#### Parameters\n\n---\n\n| **Name** | **Type** | **Description** | **Example** |\n| --- | --- | --- | --- |\n| banco_id | Number | ID do banco | 1 |",
+        "parameters": [
+          {
+            "name": "banco_id",
+            "in": "path",
+            "description": "Descricao nao definida",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/categoria": {
+      "post": {
+        "tags": [
+          "Categoria"
+        ],
+        "summary": "Cadastra uma nova categoria na loja",
+        "description": "Cadastra uma nova categoria na loja. (Passar a categoria_pai, caso seja uma subcategoria).\n\nO único campo requerido é o **nome**.\n\nO campo **id_externo** é usado para passar um id que já exista, para a categoria, em seu sistema. Assim, poderá ser realizado GET e PUT usando o seu id.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/referencia-de-schema-nao-definida"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/categoria/{{categoria_id}}": {
+      "get": {
+        "tags": [
+          "Categoria"
+        ],
+        "summary": "Lista os dados de uma categoria específica usando o **id_externo** para busca",
+        "description": "Lista os dados de uma categoria específica usando o **id_externo** para busca.\n\nA query string **id_externo** é uma flag que, quando passada, indica que o **categoria_id** deve ser considerado o **id_externo** da categoria ao fazer a busca.\n\n#### Parameters\n\n---\n\n| **Name** | **Type** | **Description** | **Example** |\n| --- | --- | --- | --- |\n| categoria_id | Number | ID externo da categoria | 123 |",
+        "parameters": [
+          {
+            "name": "categoria_id",
+            "in": "path",
+            "description": "Descricao nao definida",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/categoria/{{categoria_d}}": {
+      "put": {
+        "tags": [
+          "Categoria"
+        ],
+        "summary": "Atualiza as informações de uma categoria usando o **id_externo** para a busca",
+        "description": "Atualiza as informações de uma categoria usando o **id_externo** para a busca.\n\nPara campos que aceitam URLs, como **categoria_pai**, o id nessas URLs será considerado um **id_externo** e a flag **id_externo** pode ser omitida dessas URLs.\n\nA query string **id_externo** é uma flag que, quando passada, indica que o **categoria_id** deve ser considerado o **id_externo** da categoria ao fazer a busca.\n\n#### Parameters\n\n---\n\n| **Name** | **Type** | **Description** | **Example** |\n| --- | --- | --- | --- |\n| categoria_id | Number | ID externo da categoria | 123 |",
+        "parameters": [
+          {
+            "name": "categoria_d",
+            "in": "path",
+            "description": "Descricao nao definida",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/referencia-de-schema-nao-definida"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/categoria/set/{{categoria_id_1}};{{categoria_id_2}};{{categoria_id_3}}": {
+      "get": {
+        "tags": [
+          "Categoria"
+        ],
+        "summary": "Subconjunto de categorias",
+        "description": "Subconjunto de categorias.\n\n#### Parameters\n\n---\n\n| **Name** | **Type** | **Description** | **Example** |\n| --- | --- | --- | --- |\n| categoria_id_1 | Number | ID da categoria | 1 |\n| categoria_id_2 | Number | ID de outra categoria | 2 |\n| categoria_id_3 | Number | ID de outra categoria | 3 |",
+        "parameters": [
+          {
+            "name": "categoria_id_1",
+            "in": "path",
+            "description": "Descricao nao definida",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "categoria_id_2",
+            "in": "path",
+            "description": "Descricao nao definida",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "categoria_id_3",
+            "in": "path",
+            "description": "Descricao nao definida",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/categoria/set/{{categoria_id_1}};{{categoria_id_2}}": {
+      "get": {
+        "tags": [
+          "Categoria"
+        ],
+        "summary": "Subconjunto de categorias com id_externo",
+        "description": "Subconjunto de categorias com id_externo.\n\n#### Parameters\n\n---\n\n| **Name** | **Type** | **Description** | **Example** |\n| --- | --- | --- | --- |\n| categoria_id_1 | Number | ID externo de uma categoria | 123 |\n| categoria_id_2 | Number | ID externo de outra categoria | 2 |",
+        "parameters": [
+          {
+            "name": "categoria_id_1",
+            "in": "path",
+            "description": "Descricao nao definida",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "categoria_id_2",
+            "in": "path",
+            "description": "Descricao nao definida",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cliente": {
+      "post": {
+        "tags": [
+          "Cliente"
+        ],
+        "summary": "Cria um novo cliente na loja",
+        "description": "Cria um novo cliente na loja.\n\nObs: Não é possível inserir mais de um endereço no cadastro de um novo cliente",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/referencia-de-schema-nao-definida"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cliente/{{cliente_id}}": {
+      "get": {
+        "tags": [
+          "Cliente"
+        ],
+        "summary": "Lista os dados de um clientes específico",
+        "description": "Lista os dados de um clientes específico.\n\n#### Parameters\n\n---\n\n| **Name** | **Type** | **Description** | **Example** |\n| --- | --- | --- | --- |\n| cliente_id | Number | ID do cliente | 1 |",
+        "parameters": [
+          {
+            "name": "cliente_id",
+            "in": "path",
+            "description": "Descricao nao definida",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cupom": {
+      "post": {
+        "tags": [
+          "Cupom"
+        ],
+        "summary": "Cria um novo cupom e suas regras de desconto",
+        "description": "Cria um novo cupom e suas regras de desconto.\n\nO campo de validade recebe o formato YYYY-MM-DD. Ex: \"2021-12-02\"\n\nO campo **condicao_cliente** aceita os seguintes valores:\n\n- todos_clientes\n- grupos_selecionados**¹**\n- clientes_selecionados**²**\n    \n\n**1** - Ao enviar o valor **grupos_selecionados**, torna mandatório o envio do campo **grupos** com uma lista de IDs de grupos separados por vírgula.\n\n**2** - Ao enviar o valor **clientes_selecionados**, torna mandatório o envio do campo **clientes** com uma lista de IDs de clientes separados por vírgula.\n\nO campo **condicao_produto** aceita os seguintes valores:\n\n- todos_produtos\n- categorias_selecionadas**¹**\n- produtos_selecionados**²**\n    \n\nO campo **tipo** aceita os seguintes valores:\n\n- porcentagem\n- frete_gratis\n- fixo\n    \n\n**1** - Ao enviar o valor **categorias_selecionadas**, torna mandatório o envio do campo **categorias** com uma lista de IDs de categorias separados por vírgula.\n\n**2** - Ao enviar o valor **produtos_selecionados**, torna mandatório o envio do campo **produtos** com uma lista de IDs de produtos separados por vírgula.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/referencia-de-schema-nao-definida"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cupom/{{cupom_id}}": {
+      "put": {
+        "tags": [
+          "Cupom"
+        ],
+        "summary": "Atualiza os dados do cupom",
+        "description": "Atualiza os dados do cupom.\n\n#### Parameters\n\n---\n\n| **Name** | **Type** | **Description** | **Example** |\n| --- | --- | --- | --- |\n| cupom_id | Number | ID do cupom | 123 |",
+        "parameters": [
+          {
+            "name": "cupom_id",
+            "in": "path",
+            "description": "Descricao nao definida",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/referencia-de-schema-nao-definida"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/envio": {
+      "get": {
+        "tags": [
+          "Envio"
+        ],
+        "summary": "Lista todas as formas de envio disponíveis na loja",
+        "description": "Lista todas as formas de envio disponíveis na loja.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/envio/{{envio_id}}": {
+      "get": {
+        "tags": [
+          "Envio"
+        ],
+        "summary": "Detalha uma forma de envio",
+        "description": "Detalha uma forma de envio.\n\n#### Parameters\n\n---\n\n| **Name** | **Type** | **Description** | **Example** |\n| --- | --- | --- | --- |\n| envio_id | Number | ID da forma de envio | 1 |",
+        "parameters": [
+          {
+            "name": "envio_id",
+            "in": "path",
+            "description": "Descricao nao definida",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/produto_estoque": {
+      "get": {
+        "tags": [
+          "Estoque"
+        ],
+        "summary": "Lista todos os estoques de todos os produtos",
+        "description": "Lista todos os estoques de todos os produtos.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/produto_estoque/{{produto_id}}": {
+      "put": {
+        "tags": [
+          "Estoque"
+        ],
+        "summary": "Atualiza as informações do estoque para um produto",
+        "description": "Atualiza as informações do estoque para um produto.\n\n#### Parameters\n\n---\n\n| **Name** | **Type** | **Description** | **Example** |\n| --- | --- | --- | --- |\n| produto_id | Number | ID do produto do estoque desejado | 5135 |",
+        "parameters": [
+          {
+            "name": "produto_id",
+            "in": "path",
+            "description": "Descricao nao definida",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/referencia-de-schema-nao-definida"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/produto_estoque/{{estoque_id}}": {
+      "put": {
+        "tags": [
+          "Estoque"
+        ],
+        "summary": "Atualiza um estoque de um produto utilizando o **id_externo** para a busca",
+        "description": "Atualiza um estoque de um produto utilizando o **id_externo** para a busca.\n\nA query string **id_externo** é uma flag que, quando passada, indica que o **estoque_id** deve ser considerado o **id_externo** do estoque ao fazer a busca.\n\n#### Parameters\n\n---\n\n| **Name** | **Type** | **Description** | **Example** |\n| --- | --- | --- | --- |\n| estoque_id | Number | ID externo do estoque desejado | 5135 |",
+        "parameters": [
+          {
+            "name": "estoque_id",
+            "in": "path",
+            "description": "Descricao nao definida",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/referencia-de-schema-nao-definida"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/produto_estoque/set/{{estoque_id_1}};{{estoque_id_2}};{{estoque_id_3}}": {
+      "get": {
+        "tags": [
+          "Estoque"
+        ],
+        "summary": "Lista o estoque de vários produtos ao mesmo tempo com id externo",
+        "description": "Lista o estoque de vários produtos ao mesmo tempo com id externo.\n\n#### Parameters\n\n---\n\n| **Name** | **Type** | **Description** | **Example** |\n| --- | --- | --- | --- |\n| estoque_id_1 | Number | ID externo de um estoque | 5135 |\n| estoque_id_2 | Number | ID externo de outro estoque | 3513 |\n| estoque_id_3 | Number | ID externo de outro estoque | 3515 |",
+        "parameters": [
+          {
+            "name": "estoque_id_1",
+            "in": "path",
+            "description": "Descricao nao definida",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "estoque_id_2",
+            "in": "path",
+            "description": "Descricao nao definida",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "estoque_id_3",
+            "in": "path",
+            "description": "Descricao nao definida",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/grades": {
+      "post": {
+        "tags": [
+          "Grade"
+        ],
+        "summary": "Cadastrar nova grade",
+        "description": "Cadastrar nova grade.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/referencia-de-schema-nao-definida"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/grades/{{grade_id}}": {
+      "get": {
+        "tags": [
+          "Grade"
+        ],
+        "summary": "Detalha a grade e lista as suas variações",
+        "description": "Detalha a grade e lista as suas variações.\n\n#### Parameters\n\n---\n\n| **Name** | **Type** | **Description** | **Example** |\n| --- | --- | --- | --- |\n| grade_id | Number | ID da grade | 636 |",
+        "parameters": [
+          {
+            "name": "grade_id",
+            "in": "path",
+            "description": "Descricao nao definida",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/grade/{{grade_id}}/variacao": {
+      "post": {
+        "tags": [
+          "Grade"
+        ],
+        "summary": "Cadastrar nova variação",
+        "description": "Cadastrar nova variação.\n\n#### Parameters\n\n---\n\n| **Name** | **Type** | **Description** | **Example** |\n| --- | --- | --- | --- |\n| grade_id | Number | ID da grade | 47763 |",
+        "parameters": [
+          {
+            "name": "grade_id",
+            "in": "path",
+            "description": "Descricao nao definida",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/referencia-de-schema-nao-definida"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/grupo": {
+      "get": {
+        "tags": [
+          "Grupo"
+        ],
+        "summary": "Lista todos os grupos de clientes da loja (normal, vip, atacado, suspeito e etc)",
+        "description": "Lista todos os grupos de clientes da loja (normal, vip, atacado, suspeito e etc).",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/grupo/{{grupo_id}}": {
+      "get": {
+        "tags": [
+          "Grupo"
+        ],
+        "summary": "Lista os dados de um grupos específico",
+        "description": "Lista os dados de um grupos específico.\n\n#### Parameters\n\n---\n\n| **Name** | **Type** | **Description** | **Example** |\n| --- | --- | --- | --- |\n| grupo_id | Number | ID do grupo | 1 |",
+        "parameters": [
+          {
+            "name": "grupo_id",
+            "in": "path",
+            "description": "Descricao nao definida",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/produto_imagem/": {
+      "post": {
+        "tags": [
+          "Imagens do Produto"
+        ],
+        "summary": "Cria uma nova imagem para o produto",
+        "description": "Cria uma nova imagem para o produto.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/referencia-de-schema-nao-definida"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/produto_imagem/{{imagem_id}}": {
+      "get": {
+        "tags": [
+          "Imagens do Produto"
+        ],
+        "summary": "Visualiza as informações de uma imagem",
+        "description": "Visualiza as informações de uma imagem.\n\n#### Parameters\n\n---\n\n| **Name** | **Type** | **Description** | **Example** |\n| --- | --- | --- | --- |\n| imagem_id | Number | ID da imagem | 10804901 |",
+        "parameters": [
+          {
+            "name": "imagem_id",
+            "in": "path",
+            "description": "Descricao nao definida",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/integration/sales": {
+      "post": {
+        "tags": [
+          "Integração de Pedidos"
+        ],
+        "summary": "Use este endpoint para enviar novos Pedidos de Venda, quando for necessário enviar um pedido quando os dados de preço, pagamento e frete que foram calculados anteriormente (exemplo: Marketplaces)",
+        "description": "Use este endpoint para enviar novos Pedidos de Venda, quando for necessário enviar um pedido quando os dados de preço, pagamento e frete que foram calculados anteriormente (exemplo: Marketplaces).\n\n**buyer (dict)**\n\n> Informe os dados do comprador:\n> \n> - name (string) - Nome Completo do Comprador\n> - email (string) - Email do Comprador (obrigatório)\n> - document (number) - O número do documento legal do Comprador (obrigatório). Somente números\n> - ie (string) - Inscrição estadual caso o Comprador seja PJ.\n> - external_id (number) - O Id do parceiro para o comprador\n> - phone (number) - O número do telefone principal, somente números\n> - type (string) - Utilize \"CPF\", \"CNPJ\" ou \"RG\" (obrigatório)\n\n**shipping (dict)**\n\n> Informe os dados de entrega:\n> \n> - address\n>     - address (string): O endereço completo de entrega (obrigatório);\n>     - country (string): O codigo ISO de dois dígitos do País (obrigatório);\n>     - complement (string): O complemento do endereço;\n>     - street (string): Informe o logradouro;\n>     - city (string): Informe a cidade;\n>     - number (number): Informe o número;\n>     - zipcode (number): Informe o CEP (obrigatório);\n>     - district (string): Informe o bairro;\n> - option (string): informe o tipo de envio; Valores: \"pac\" ou \"sedex\", por exemplo. Para ver as formas de envio validas consultar endpoint de Envio (opcional).\n> - time (number): informe o prazo de envio em dias;\n\n**amount (dict)**\n\n> Informe o total do Pedido de Venda:\n> \n> - discount (float): Informe o total de descontos;\n> - freight (float): Informe o total de frete;\n> - fees (float): informe o total de juros/multa/taxas;\n> - total (float): informe o valor final;\n> - gross (float): informa o valor total antes dos descontos.\n\n**itens (array)**\n\n> Informe os items do Pedido de Venda:\n> \n> - product_id (number): O Id do Produto;\n> - quantity (number): A quantidade do produto no pedido;\n> - unit_value (float): O valor unitário do produto;\n> - line_value (float): O subtotal do produto na venda.\n\n**info (dict)**\n\n> Informe dados gerais do Pedido de Venda:\n> \n> - status (number): informe o status do pedido (obrigatório). Valores aceitos:\n>     - 2: Aguardando Pagamento\n>     - 3: Pedido em Análise\n>     - 4: Pedido Pago\n>     - 6: Pedido em Disputa\n>     - 7: Pagamento Devolvido\n>     - 8: Pedido Cancelado\n>     - 9: Pedido Efetuado (padrão)\n>     - 11: Pedido Enviado\n>     - 13: Pedido Pronto da Retirada\n>     - 14: Pedido Entregue\n> - marketPlaceId: Informe o Id do marketplace no integrador.\n> - reference: Diretório de referencia composto pelo integrador e marketplace. Ex: hubMarket/b2w.\n\n**integration_data (dict)**\n\n> Informe os dados referente a integração do pedido:\n> \n> - integrator(string) : Nome do integrador;\n> - marketplace (string) : Nome do MarketPlace;\n> - Id Externo (number).\n> - unique_id (string): Id único do pedido no integrador (opcional).",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/referencia-de-schema-nao-definida"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/integration/sales/{{pedido_id}}": {
+      "put": {
+        "tags": [
+          "Integração de Pedidos"
+        ],
+        "summary": "Utilize este endpoint para atualizar o Pedido de Venda previamente criado",
+        "description": "Utilize este endpoint para atualizar o Pedido de Venda previamente criado.\n\nNo corpo, utilize o mesmo formato do POST acima e informe o número do pedido na loja.\n\n#### Parameters\n\n---\n\n| **Name** | **Type** | **Description** | **Example** |\n| --- | --- | --- | --- |\n| pedido_id | Number | ID do pedido criado anteriormente | 27 |",
+        "parameters": [
+          {
+            "name": "pedido_id",
+            "in": "path",
+            "description": "Descricao nao definida",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/referencia-de-schema-nao-definida"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/integration/pedido/nf": {
+      "post": {
+        "tags": [
+          "Integração de Pedidos"
+        ],
+        "summary": "Inserir nota fiscal do pedido",
+        "description": "Inserir nota fiscal do pedido.\n\n| **Parâmetros no Body** | **Descrição** |\n| --- | --- |\n| account_key | A chave API da loja |\n| access_key | Chave de acesso do pedido de venda |\n| sale_number | O número do pedido de venda |\n| url | A url para visualizção da nota fiscal |\n| date | A data de criação da nota fiscal |\n| invoice_number | O número da nota fiscal |\n| serie | O número de séria da nota fiscal |",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/referencia-de-schema-nao-definida"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/marca": {
+      "post": {
+        "tags": [
+          "Marca"
+        ],
+        "summary": "Cadastra uma nova marca na loja",
+        "description": "Cadastra uma nova marca na loja.\n\nO único campo requerido é o **nome**.\n\nO campo **id_externo** é usado para passar um id que já exista, para a marca, em seu sistema. Assim, poderá ser realizado GET e PUT usando o seu id.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/referencia-de-schema-nao-definida"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/marca/{{marca_id}}": {
+      "put": {
+        "tags": [
+          "Marca"
+        ],
+        "summary": "Atualiza as informações de uma marca usando o **id_externo** para a busca",
+        "description": "Atualiza as informações de uma marca usando o **id_externo** para a busca.\n\nA query string **id_externo** é uma flag que, quando passada, indica que o **marca_id** deve ser considerado o **id_externo** da marca ao fazer a busca.\n\n#### Parameters\n\n---\n\n| **Name** | **Type** | **Description** | **Example** |\n| --- | --- | --- | --- |\n| marca_id | Number | ID externo da marca | 3 |",
+        "parameters": [
+          {
+            "name": "marca_id",
+            "in": "path",
+            "description": "Descricao nao definida",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/referencia-de-schema-nao-definida"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/marca/set/{{marca_id_1}};{{marca_id_2}};{{marca_id_3}}": {
+      "get": {
+        "tags": [
+          "Marca"
+        ],
+        "summary": "Subconjunto de marcas",
+        "description": "Subconjunto de marcas.\n\n#### Parameters\n\n---\n\n| **Name** | **Type** | **Description** | **Example** |\n| --- | --- | --- | --- |\n| marca_id_1 | Number | ID de uma marca | 1 |\n| marca_id_2 | Number | ID de outra marca | 2 |\n| marca_id_3 | Number | ID de outra marca | 3 |",
+        "parameters": [
+          {
+            "name": "marca_id_1",
+            "in": "path",
+            "description": "Descricao nao definida",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "marca_id_2",
+            "in": "path",
+            "description": "Descricao nao definida",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "marca_id_3",
+            "in": "path",
+            "description": "Descricao nao definida",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/marca/set/{{marca_id_1}};{{marca_id_2}}": {
+      "get": {
+        "tags": [
+          "Marca"
+        ],
+        "summary": "Subconjunto de marcas com id_externo",
+        "description": "Subconjunto de marcas com id_externo.\n\n#### Parameters\n\n---\n\n| **Name** | **Type** | **Description** | **Example** |\n| --- | --- | --- | --- |\n| marca_id_1 | Number | ID externo de uma marca | 3 |\n| marca_id_2 | Number | ID externo de outra marca | 4 |",
+        "parameters": [
+          {
+            "name": "marca_id_1",
+            "in": "path",
+            "description": "Descricao nao definida",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "marca_id_2",
+            "in": "path",
+            "description": "Descricao nao definida",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pagamento": {
+      "get": {
+        "tags": [
+          "Pagamento"
+        ],
+        "summary": "Lista todas as formas de pagamento disponíveis",
+        "description": "Lista todas as formas de pagamento disponíveis.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pagamento/{{pagamento_id}}": {
+      "get": {
+        "tags": [
+          "Pagamento"
+        ],
+        "summary": "Detalha uma forma de pagamento",
+        "description": "Detalha uma forma de pagamento.\n\n#### Parameters\n\n---\n\n| **Name** | **Type** | **Description** | **Example** |\n| --- | --- | --- | --- |\n| pagamento_id | Number | ID da forma de pagamento | 1 |",
+        "parameters": [
+          {
+            "name": "pagamento_id",
+            "in": "path",
+            "description": "Descricao nao definida",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pedido/search/": {
+      "get": {
+        "tags": [
+          "Pedido"
+        ],
+        "summary": "Busca por pedidos de acordo com os seguintes filtros:\n\n| **Filtro** | **Descrição** |\n| --- | --- |\n| since_numero | Pedidos com número igual ou maior ao especificado",
+        "description": "Busca por pedidos de acordo com os seguintes filtros:\n\n| **Filtro** | **Descrição** |\n| --- | --- |\n| since_numero | Pedidos com número igual ou maior ao especificado. |\n| since_atualizado | Pedidos que foram atualizados a partir da data e hora especificada. A data deve estar no formato AAAA-MM-DDTHH:MM:SS, onde a hora é opcional. |\n| cliente_id | Pedidos do cliente com o id especificado. |\n| pagamento_id | Pedidos que utilizaram a forma de pagamento com o id especificado. |\n| situacao_id | Pedidos que estão na situação especificada. |\n| since_criado | Pedidos que foram criados a partir da data e hora especificada. A data deve estar no formato AAAA-MM-DDTHH:MM:SS, onde a hora é opcional. |\n| until_criado | Pedidos que foram criados antes da data e hora especificada. A data deve estar no formato AAAA-MM-DDTHH:MM:SS, onde a hora é opcional. |\n\nPara conhecer os ids de **pagamento**, faça um **GET** em **/api/v1/pagamento/**\n\nPara conhecer os ids de **situacao**, faça um **GET** em **/api/v1/situacao/**\n\nOs seguintes parâmetros podem ser usados para paginação:\n\n| **Parâmetro** | **Descrição** |\n| --- | --- |\n| limit | Indica a quantidade de pedidos por página (o máximo aceito é 100) |\n| offset | Indica a posição do primeiro pedido, na ordem, para o resultado. offset=10 indica que o primeiro pedido do resultado será o da posição 10 na ordem. |\n\nO exemplo mostra como filtra por **situação**, **pagamento** e a partir do **pedido número** 345:",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pedido/{{pedido_id}}": {
+      "put": {
+        "tags": [
+          "Pedido"
+        ],
+        "summary": "Altera o id_externo do pedido",
+        "description": "Altera o id_externo do pedido.\n\n#### Parameters\n\n---\n\n| **Name** | **Type** | **Description** | **Example** |\n| --- | --- | --- | --- |\n| pedido_id | Number | ID do pedido | 544 |",
+        "parameters": [
+          {
+            "name": "pedido_id",
+            "in": "path",
+            "description": "Descricao nao definida",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/referencia-de-schema-nao-definida"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pedido_envio/{{envio_id}}": {
+      "put": {
+        "tags": [
+          "Pedido"
+        ],
+        "summary": "Atualizar código de rastreamento",
+        "description": "Atualizar código de rastreamento.\n\nO número **2417337** é o **id do envio** que está disponível ao consultar o detalhe do pedido. **pedido -> envios -> 0 -> id**\n\nObs: Não utilize o id do pedido nesta chamada pois não é o mesmo identificador.\n\n#### Parameters\n\n---\n\n| **Name** | **Type** | **Description** | **Example** |\n| --- | --- | --- | --- |\n| envio_id | Number | ID do envio que está disponível ao consultar o detalhe do pedido | 2417337 |",
+        "parameters": [
+          {
+            "name": "envio_id",
+            "in": "path",
+            "description": "Descricao nao definida",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/referencia-de-schema-nao-definida"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/produto_preco": {
+      "get": {
+        "tags": [
+          "Preço"
+        ],
+        "summary": "Lista o preço dos produtos",
+        "description": "Lista o preço dos produtos.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/produto_preco/{{produto_id}}": {
+      "put": {
+        "tags": [
+          "Preço"
+        ],
+        "summary": "Altera o preço de um produto",
+        "description": "Altera o preço de um produto.\n\n#### Parameters\n\n---\n\n| **Name** | **Type** | **Description** | **Example** |\n| --- | --- | --- | --- |\n| produto_id | Number | ID do produto do preço desejado | 1 |",
+        "parameters": [
+          {
+            "name": "produto_id",
+            "in": "path",
+            "description": "Descricao nao definida",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/referencia-de-schema-nao-definida"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/produto_preco/{{preco_id}}": {
+      "put": {
+        "tags": [
+          "Preço"
+        ],
+        "summary": "Atualiza um preço de um produto utilizando o **id_externo** para a busca",
+        "description": "Atualiza um preço de um produto utilizando o **id_externo** para a busca.\n\nA query string **id_externo** é uma flag que, quando passada, indica que o **preco_id** deve ser considerado o **id_externo** do preço ao fazer a busca.\n\n#### Parameters\n\n---\n\n| **Name** | **Type** | **Description** | **Example** |\n| --- | --- | --- | --- |\n| preco_id | Number | ID externo do preço desejado | 1 |",
+        "parameters": [
+          {
+            "name": "preco_id",
+            "in": "path",
+            "description": "Descricao nao definida",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/referencia-de-schema-nao-definida"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/produto_preco/set/{{preco_id_1}};{{preco_id_2}};{{preco_id_3}}": {
+      "get": {
+        "tags": [
+          "Preço"
+        ],
+        "summary": "Lista o preço de vários produtos ao mesmo tempo utilizando ids externos pra a busca",
+        "description": "Lista o preço de vários produtos ao mesmo tempo utilizando ids externos pra a busca.\n\n#### Parameters\n\n---\n\n| **Name** | **Type** | **Description** | **Example** |\n| --- | --- | --- | --- |\n| preco_id_1 | Number | ID externo de um preço | 5 |\n| preco_id_2 | Number | ID externo de outro preço | 6 |\n| preco_id_3 | Number | ID externo de outro preço | 7 |",
+        "parameters": [
+          {
+            "name": "preco_id_1",
+            "in": "path",
+            "description": "Descricao nao definida",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "preco_id_2",
+            "in": "path",
+            "description": "Descricao nao definida",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "preco_id_3",
+            "in": "path",
+            "description": "Descricao nao definida",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/produto": {
+      "get": {
+        "tags": [
+          "Produto"
+        ],
+        "summary": "Lista todos produtos da loja que foram alterados depois de uma determinada data",
+        "description": "Lista todos produtos da loja que foram alterados depois de uma determinada data.\n\nPara usar o filtro você pode usar nos campos \"**data_criacao**\", \"**data_modificacao**\", \"**sku**\", \"**ativo**\" e \"**removido**\", com os seguintes sufixos disponíveis para os campos do tipo data:\n\n- `(campo)__lt` - Filtro de comparação \"menor que\".\n- `(campo)__lte` - Filtro de comparação \"menor que ou igual\".\n- `(campo)__gt` - Filtro de comparação \"maior que\".\n- `(campo)__gte` - Filtro de comparação \"maior que ou igual\".\n- Ou pode usar campo=data, desta forma a comparação será da data exata.\n    \n\n#### Parameters\n\n---\n\n| **Name** | **Type** | **Description** | **Example** |\n| --- | --- | --- | --- |\n| datetime | String | DATETIME no formato: YYYY-MM-DD HH:MM:SS | 2014-04-04 10:20:00 |",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/produto/{{produto_id}}/": {
+      "put": {
+        "tags": [
+          "Produto"
+        ],
+        "summary": "Atualiza um produto na loja utilizando o **id_externo** para a busca",
+        "description": "Atualiza um produto na loja utilizando o **id_externo** para a busca. Para fazer a atualização é necessário enviar todos os campos do produto.\n\nPara campos que aceitam URLs, como **variacoes** e **pai**, o id nessas URLs será considerado um **id_externo** e a flag **id_externo** pode ser omitida dessas URLs.\n\nA query string **id_externo** é uma flag que, quando passada, indica que o **produto_id** deve ser considerado o **id_externo** do produto ao fazer a busca.\n\n#### Parameters\n\n---\n\n| **Name** | **Type** | **Description** | **Example** |\n| --- | --- | --- | --- |\n| produto_id | Number | ID do produto | 1064972 |\n| descricao_completa | Boolean | Exibir ou não a descrição completa do produto | 1 |",
+        "parameters": [
+          {
+            "name": "produto_id",
+            "in": "path",
+            "description": "Descricao nao definida",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/referencia-de-schema-nao-definida"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/produto/{{produto_id}}": {
+      "put": {
+        "tags": [
+          "Produto"
+        ],
+        "summary": "Atualiza um produto na loja",
+        "description": "Atualiza um produto na loja. Para fazer a atualização é necessário enviar todos os campos do produto.\n\nPara campos que aceitam URLs, como **variacoes** e **pai**, a flag **id_externo** pode ser enviada na URL para indicar que o id na URL é um id_externo.\n\nExemplo: `\"pai\": \"/api/v1/produto/73849275?id_externo=1\"` ao invés de `\"pai\": \"/api/v1/produto/19808215\"`.\n\n#### Parameters\n\n---\n\n| **Name** | **Type** | **Description** | **Example** |\n| --- | --- | --- | --- |\n| produto_id | Number | ID do produto | 1064972 |",
+        "parameters": [
+          {
+            "name": "produto_id",
+            "in": "path",
+            "description": "Descricao nao definida",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/referencia-de-schema-nao-definida"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/seo": {
+      "get": {
+        "tags": [
+          "SEO"
+        ],
+        "summary": "Lista todas as configurações de SEO disponíveis",
+        "description": "Lista todas as configurações de SEO disponíveis.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/seo/{{seo_id}}": {
+      "put": {
+        "tags": [
+          "SEO"
+        ],
+        "summary": "Atualiza os parâmetros de SEO de um cadastro específico",
+        "description": "Atualiza os parâmetros de SEO de um cadastro específico.\n\n#### Parameters\n\n---\n\n| **Name** | **Type** | **Description** | **Example** |\n| --- | --- | --- | --- |\n| seo_id | Number | ID da configuração de SEO desejada | 1 |",
+        "parameters": [
+          {
+            "name": "seo_id",
+            "in": "path",
+            "description": "Descricao nao definida",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/referencia-de-schema-nao-definida"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/situacao": {
+      "get": {
+        "tags": [
+          "Situações do Pedido"
+        ],
+        "summary": "Lista todas as situações disponíveis",
+        "description": "Lista todas as situações disponíveis.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/situacao/pedido/{{pedido_id}}": {
+      "put": {
+        "tags": [
+          "Situações do Pedido"
+        ],
+        "summary": "Atualiza a situação de um pedido específico",
+        "description": "Atualiza a situação de um pedido específico.\n\nUse **GET** em **/api/v1/situacao/** para conhecer os valores possíveis para **codigo**.\n\n#### Parameters\n\n---\n\n| **Name** | **Type** | **Description** | **Example** |\n| --- | --- | --- | --- |\n| pedido_id | Number | ID do pedido | 1 |",
+        "parameters": [
+          {
+            "name": "pedido_id",
+            "in": "path",
+            "description": "Descricao nao definida",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/referencia-de-schema-nao-definida"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/situacao_historico": {
+      "get": {
+        "tags": [
+          "Situações do Pedido"
+        ],
+        "summary": "Listagem do histórico de alteração da situação de um pedido",
+        "description": "Listagem do histórico de alteração da situação de um pedido.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/situacao_historico/search": {
+      "get": {
+        "tags": [
+          "Situações do Pedido"
+        ],
+        "summary": "Busca situações do pedido pelo número do pedido (?numero=) ou pelo id_externo (?id_externo=)",
+        "description": "Busca situações do pedido pelo número do pedido (?numero=) ou pelo id_externo (?id_externo=).\n\n#### Parameters\n\n---\n\n| **Name** | **Type** | **Description** | **Example** |\n| --- | --- | --- | --- |\n| pedido_id | Number | ID do pedido | 2 |",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/referencia-de-schema-nao-definida"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": null
+}
