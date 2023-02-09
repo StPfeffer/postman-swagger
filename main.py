@@ -1,10 +1,12 @@
 import json
+import yaml
 from create.create import Create
 
 
-class Transform():
+class Main():
     """
-    Transforma uma coleção do Postman em um JSON pronto para ser convertido em um YAML Swagger
+    Transforma uma coleção do Postman em um JSON pronto para ser convertido em
+    um YAML no padrão Swagger
     """
     def __init__(self) -> None:
         pass
@@ -20,26 +22,12 @@ class Transform():
 
     def transform(self, data: dict) -> dict:
         create = Create()
-        new_data = dict()
 
-        new_data["openapi"] = "3.0.3"
-
-        if ("info" in data.keys()):
-            new_data["info"] = create.createInfo(data["info"])
-
-        if ("variable" in data.keys()):
-            new_data["servers"] = create.createServers(data["variable"])
-        
-        if ("item" in data.keys()):
-            new_data["tags"] = create.createTags(data)
-            new_data["paths"] = create.createPaths(data)
-            new_data["components"] = create.createComponents(data)
-
-        return new_data
+        return create.create(data)
 
 
 if __name__ == "__main__":
-    t = Transform()
+    t = Main()
 
     json_file = t.openJson("postman-docs.json")
 
@@ -47,3 +35,6 @@ if __name__ == "__main__":
 
     with open("out.json", "w") as out_file:
         json.dump(json_file, out_file, indent=2, ensure_ascii=False)
+
+    with open("swagger.yaml", "w") as yaml_file:
+        yaml.dump(json_file, yaml_file, sort_keys=False, indent=2, allow_unicode=True)
