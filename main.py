@@ -3,7 +3,7 @@ import json
 import pyyaml
 
 
-class Main():
+class Main:
     """
     Transforma uma coleção do Postman em um JSON pronto para ser convertido em
     um YAML no padrão Swagger
