@@ -1,6 +1,6 @@
+import create
 import json
-import yaml
-from create.create import Create
+import pyyaml
 
 
 class Main():
@@ -17,12 +17,10 @@ class Main():
             with open(file_name) as json_file:
                 return json.load(json_file)
         except FileNotFoundError:
-            raise FileNotFoundError(f"O arquivo {file_name} não foi encontrado")
+            raise FileNotFoundError(f" => O arquivo {file_name} não foi encontrado")
 
 
     def transform(self, data: dict) -> dict:
-        create = Create()
-
         return create.create(data)
 
 
@@ -37,4 +35,4 @@ if __name__ == "__main__":
         json.dump(json_file, out_file, indent=2, ensure_ascii=False)
 
     with open("swagger.yaml", "w") as yaml_file:
-        yaml.dump(json_file, yaml_file, sort_keys=False, indent=2, allow_unicode=True)
+        pyyaml.dump(json_file, yaml_file, sort_keys=False, indent=2, allow_unicode=True)
