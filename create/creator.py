@@ -1,10 +1,10 @@
 __all__ = ['Creator']
 
+from .component import *
 from .info import *
+from .path import *
 from .server import *
 from .tag import *
-from .path import *
-from .component import *
 
 
 class Creator(Component, Info, Path, Server, Tag):
