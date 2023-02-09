@@ -10,7 +10,7 @@ class Populate():
 
 
         if (temp["content"][data]["schema"]["$ref"] is None):
-            temp["content"][data]["schema"]["$ref"] = "#/referencia-de-schema-nao-definida"
+            temp["content"][data]["schema"]["$ref"] = "#/request-schema-nao-definido"
 
         return temp
 
@@ -27,11 +27,11 @@ class Populate():
                 temp[str(data["code"])]["content"][data["header"][0]["value"]] = {"schema": {"$ref": None}}
 
                 if (temp[str(data["code"])]["content"][data["header"][0]["value"]]["schema"]["$ref"] is None):
-                    temp[str(data["code"])]["content"][data["header"][0]["value"]]["schema"]["$ref"] = "#/referencia-de-schema-nao-definida"
+                    temp[str(data["code"])]["content"][data["header"][0]["value"]]["schema"]["$ref"] = "#/response-schema-nao-definido"
             except:
                 temp[str(data["code"])] = {"content": None}
         else:
-            temp[str(data["code"])] = None
+            return {}
 
         return temp
 
