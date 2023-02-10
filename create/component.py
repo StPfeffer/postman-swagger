@@ -1,6 +1,6 @@
 class Component:
-    def __init__(self, populate: bool) -> None:
-        self.populate = populate
+    def __init__(self) -> None:
+        pass
 
     
     def createComponent(self, data: dict) -> dict:
