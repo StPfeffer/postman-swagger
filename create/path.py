@@ -4,9 +4,7 @@ from .response import *
 
 
 class Path:
-    def __init__(self, populate: bool) -> None:
-        self.populate = populate
-
+    def __init__(self) -> None:
         self.param = Parameter(self.populate)
         self.req = Request(self.populate)
         self.res = Response(self.populate)
