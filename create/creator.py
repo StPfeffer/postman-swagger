@@ -10,8 +10,10 @@ from .tag import *
 class Creator(Component, Info, Path, Server, Tag):
 
     def __init__(self, populate: bool):
-        Component.__init__(self, populate)
-        Info.__init__(self, populate)
-        Path.__init__(self, populate)
-        Server.__init__(self, populate)
-        Tag.__init__(self, populate)
+        self.populate = populate
+
+        Component.__init__(self)
+        Info.__init__(self)
+        Path.__init__(self)
+        Server.__init__(self)
+        Tag.__init__(self)
