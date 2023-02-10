@@ -1,6 +1,6 @@
 class Parameter:
-    def __init__(self, populate: bool) -> None:
-        self.populate = populate
+    def __init__(self) -> None:
+        pass
 
 
     def populateParams(self, param: list) -> list:
