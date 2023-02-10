@@ -1,6 +1,6 @@
 class Info:
-    def __init__(self, populate: bool) -> None:
-        self.populate = populate
+    def __init__(self) -> None:
+        pass
 
     
     def createInfo(self, data: dict) -> dict:
